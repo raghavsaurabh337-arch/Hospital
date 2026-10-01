@@ -1,0 +1,205 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>LifeCare Hospital</title>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">🏥 LifeCare Hospital</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#doctors">Doctors</a>
+            <a href="#register">Register</a>
+            <a href="#about">About</a>
+            <a href="#help">Help</a>
+        </div>
+    </nav>
+
+    <!-- HOME -->
+    <section id="home">
+        <div class="home-content">
+            <span class="badge">🏥 Trusted Healthcare Since 2010</span>
+            <h1>Your Health is Our <span>Priority</span></h1>
+            <p>Quality Healthcare for You and Your Family — Available 24/7</p>
+            <div class="hero-btns">
+                <a href="#register" class="btn">Register Now</a>
+                <a href="#doctors" class="btn btn-outline">Meet Doctors</a>
+            </div>
+            <div class="stats">
+                <div class="stat">
+                    <h3>5000+</h3>
+                    <p>Patients Treated</p>
+                </div>
+                <div class="stat">
+                    <h3>20+</h3>
+                    <p>Expert Doctors</p>
+                </div>
+                <div class="stat">
+                    <h3>15+</h3>
+                    <p>Years Experience</p>
+                </div>
+                <div class="stat">
+                    <h3>24/7</h3>
+                    <p>Emergency Care</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DOCTORS -->
+    <section id="doctors">
+        <h2 class="section-title">Our Expert Doctors</h2>
+        <div class="doctor-container">
+            <div class="doctor-card">
+                <div class="doctor-icon">👨‍⚕️</div>
+                {% if doctors %}
+                {% for doctor in doctors %}
+                    <h3>Dr. {{ doctor.name }}</h3>
+                </a>
+                <p class="speciality">{{ doctor.specialization }}</p>
+                <p>{{ doctor.qualification }}</p>
+                <p>⭐ {{ doctor.experience }} Years Experience</p>
+                 <a href="{% url 'doctor_detail' doctor.id %}" class="details-btn">
+                                View Details
+                            </a>
+                {% endfor %}
+              
+                {% else %}
+                    <p>No doctors available at the moment.</p>
+                {% endif %}
+          
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+        <h2 class="section-title">About Our Hospital</h2>
+        <div class="about-container">
+            <p>LifeCare Hospital provides quality healthcare services to patients and their families.</p>
+            <p>Our hospital provides experienced doctors, modern medical facilities and patient-friendly healthcare services.</p>
+            <p>Our goal is to provide safe and reliable healthcare services to everyone.</p>
+            <div class="about-features">
+                <div class="about-feature">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Award Winning</h3>
+                    <p>Best Hospital Award 2023</p>
+                </div>
+                <div class="about-feature">
+                    <div class="feature-icon">🔬</div>
+                    <h3>Modern Equipment</h3>
+                    <p>Latest medical technology</p>
+                </div>
+                <div class="about-feature">
+                    <div class="feature-icon">❤️</div>
+                    <h3>Patient First</h3>
+                    <p>Compassionate care always</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REGISTER -->
+    <section id="register">
+        <h2 class="section-title">Patient Registration</h2>
+        <div class="form-container">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Patient Name</label>
+                        <input type="text" name="patient_name" placeholder="Enter patient name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Father's Name</label>
+                        <input type="text" name="father_name" placeholder="Enter father's name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Age</label>
+                        <input type="number" name="age" placeholder="Enter age" min="1" max="120" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Gender</label>
+                        <select name="gender" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                   
+                    <div class="form-group">
+                        <label>Mobile Number</label>
+                        <input type="tel" name="mobile" placeholder="Enter mobile number" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>Address</label>
+                        <textarea name="address" placeholder="Enter complete address" required></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label>Problem / Reason for Visit</label>
+                        <textarea name="problem" placeholder="Describe your problem" required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="submit-btn">✅ Register Patient</button>
+            </form>
+        </div>
+    </section>
+
+    
+    <section id="help">
+        <h2 class="section-title">Help & Support</h2>
+        <div class="help-container">
+            <div class="help-box emergency">
+                <div class="help-icon">🚨</div>
+                <h3>Emergency</h3>
+                <p>Emergency Contact: <strong>108</strong></p>
+                <p>Available 24/7</p>
+            </div>
+            <div class="help-box">
+                <div class="help-icon">📞</div>
+                <h3>Hospital Contact</h3>
+                <p>Phone: 9876543210</p>
+                <p>Email: lifecare@example.com</p>
+            </div>
+            <div class="help-box">
+                <div class="help-icon">📍</div>
+                <h3>Hospital Address</h3>
+                <p>Main Road, Your Village,</p>
+                <p>Uttar Pradesh, India</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🏥 LifeCare Hospital</div>
+            <p>Providing quality healthcare with compassion and excellence.</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#doctors">Doctors</a>
+                <a href="#register">Register</a>
+                <a href="#about">About</a>
+                <a href="#help">Help</a>
+            </div>
+            <p class="footer-copy">© 2026 LifeCare Hospital. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

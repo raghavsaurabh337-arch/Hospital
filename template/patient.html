@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <title>Patients - LifeCare Hospital</title>
+    <style>
+        .page-wrapper {
+            max-width: 1100px;
+            margin: 100px auto 60px;
+            padding: 0 20px;
+        }
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #075985;
+        }
+        .page-header span {
+            background: #e0f7fa;
+            color: #087f8c;
+            padding: 5px 14px;
+            border-radius: 50px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: #087f8c;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .back-btn:hover { text-decoration: underline; }
+
+        /* TABLE */
+        .table-wrapper {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            overflow: hidden;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        thead {
+            background: linear-gradient(135deg, #087f8c, #0b7285);
+        }
+        thead th {
+            padding: 16px 20px;
+            text-align: left;
+            color: white;
+            font-size: 13px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        tbody tr {
+            border-bottom: 1px solid #f3f4f6;
+            transition: 0.2s;
+        }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: #f8fffe; }
+        tbody td {
+            padding: 16px 20px;
+            color: #374151;
+            font-size: 14px;
+        }
+        .gender-badge {
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .gender-male { background: #dbeafe; color: #1d4ed8; }
+        .gender-female { background: #fce7f3; color: #be185d; }
+        .gender-other { background: #f3e8ff; color: #7c3aed; }
+
+        .view-btn {
+            padding: 6px 14px;
+            background: #e0f7fa;
+            color: #087f8c;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+        .view-btn:hover { background: #087f8c; color: white; }
+
+        /* EMPTY STATE */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .empty-state .empty-icon { font-size: 60px; margin-bottom: 15px; }
+        .empty-state h3 { color: #075985; font-size: 20px; margin-bottom: 8px; }
+        .empty-state p { color: #6b7280; margin-bottom: 20px; }
+
+        @media (max-width: 700px) {
+            table { display: block; overflow-x: auto; }
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .page-wrapper { flex: 1; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">🏥 LifeCare Hospital</div>
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/#doctors">Doctors</a>
+            <a href="/#register">Register</a>
+            <a href="/#about">About</a>
+            <a href="/#help">Help</a>
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+        <a href="/" class="back-btn">← Back to Home</a>
+
+        <div class="page-header">
+            <h1>🧑‍⚕️ All Patients</h1>
+            <span>Total: {{ patients|length }}</span>
+        </div>
+
+        <div class="table-wrapper">
+            {% if patients %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Father Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Contact</th>
+                        <th>Problem</th>
+                        <th>Address</th>
+
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td><strong>{{ patient.patient_name }}</strong></td>
+                        <td> {{patient.father_name}}</td>
+                        <td>{{ patient.age }} yrs</td>
+                        <td>
+                            <span class="gender-badge
+                                {% if patient.gender == 'Male' %}gender-male
+                                {% elif patient.gender == 'Female' %}gender-female
+                                {% else %}gender-other{% endif %}">
+                                {{ patient.gender }}
+                            </span>
+                        </td>
+                        <td>{{ patient.mobile}}</td>
+                        <td>{{ patient.problem|truncatechars:30 }}</td>
+                       
+                        <td>{{ patient.address|truncatechars:30 }}</td>
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+           
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo">🏥 LifeCare Hospital</div>
+            <p class="footer-copy">© 2026 LifeCare Hospital. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+</body>
+</html>
