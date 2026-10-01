@@ -28,7 +28,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-    'https://hospital-1-tmh7.onrender.com'
+    'hospital-1-tmh7.onrender.com'
 ]
 
 
